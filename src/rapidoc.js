@@ -1,79 +1,81 @@
-import { LitElement, html, css} from 'lit-element'; 
-import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
-import MLogo from '@/components/m-logo'; 
-import EndPoints from '@/components/end-points'; 
-import SecuritySchemes from '@/components/security-schemes'; 
+import { LitElement, html, css} from 'lit-element'
+import {unsafeHTML} from 'lit-html/directives/unsafe-html.js'
+import MLogo from '@/components/m-logo' 
+import EndPoints from '@/components/end-points'
+import SecuritySchemes from '@/components/security-schemes'
 
-import FontStyles from '@/styles/font-styles';
-import InputStyles from '@/styles/input-styles';
-import FlexStyles from '@/styles/flex-styles';
-import TableStyles from '@/styles/table-styles';
+import FontStyles from '@/styles/font-styles'
+import InputStyles from '@/styles/input-styles'
+import FlexStyles from '@/styles/flex-styles'
+import TableStyles from '@/styles/table-styles'
 
-import vars from '@/styles/vars';
-import ProcessSpec from '@/utils/parse-utils';
-import marked from 'marked';
+import vars from '@/styles/vars'
+import ProcessSpec from '@/utils/parse-utils'
+import marked from 'marked'
 
-export default class RapiDoc extends LitElement {
-
-  render() {
+export default class RapiDoc extends LitElement
+{
+  render()
+  {
     return html`
       ${FontStyles}
       ${InputStyles}
       ${FlexStyles}
       ${TableStyles}
-      ${this.theme==='dark'?
-      html`<style>
-        :host{
-          --bg:#333;
-          --bg2:#444;
-          --fg:#bbb;
-          --fg2:#aaa;
-          --light-fg:#777;
-          --very-light-fg:#666;
-          --pre-border-color:#666;
-          --pre-fg:#fff;
-          --pre-bg:#222;
-          --code-fg:#ccc;
-          --code-bg:transparent;
-          --border-color:#666;
-          --input-bg:#303030;
-          --input-border-color:#297aa2;
-          --placeholder-color:#666;
-          --light-border-color:#444;
-          --light-get-color:#2a2a2a;
-          --light-put-color:#2a2a2a;
-          --light-post-color:#2a2a2a;
-          --light-delete-color:#2a2a2a;
-          --light-patch-color:#2a2a2a;
-          --hover-color:#2a2a2a;
-        }
-      </style>`
-      :html`<style>
-        :host{
-          --bg:#fff;
-          --bg2:#fafafa;
-          --fg:#333;
-          --fg2:#565656;
-          --light-fg:#999;
-          --very-light-fg:#bbb;
-          --pre-border-color:#000;
-          --pre-fg:#ccc;
-          --pre-bg:#263238;
-          --code-fg:#ccc;
-          --code-bg:transparent;
-          --border-color:#ccc;
-          --input-bg:#fff;
-          --input-border-color:#C5D9E8;
-          --placeholder-color:#dedede;
-          --light-border-color:#eee;
-          --light-get-color:#eff8fd;
-          --light-put-color:#fff5e6;
-          --light-post-color:#fbfff0;
-          --light-delete-color:#fff0f0;
-          --light-patch-color:#fff5cc;
-          --hover-color:#f7f7f7;
-        }
-      </style>`}      
+      ${this.theme === 'dark' ?
+        html`<style>
+          :host{
+            --bg:#333;
+            --bg2:#444;
+            --fg:#bbb;
+            --fg2:#aaa;
+            --light-fg:#777;
+            --very-light-fg:#666;
+            --pre-border-color:#666;
+            --pre-fg:#fff;
+            --pre-bg:#222;
+            --code-fg:#ccc;
+            --code-bg:transparent;
+            --border-color:#666;
+            --input-bg:#303030;
+            --input-border-color:#297aa2;
+            --placeholder-color:#666;
+            --light-border-color:#444;
+            --light-get-color:#2a2a2a;
+            --light-put-color:#2a2a2a;
+            --light-post-color:#2a2a2a;
+            --light-delete-color:#2a2a2a;
+            --light-patch-color:#2a2a2a;
+            --hover-color:#2a2a2a;
+          }
+          </style>`
+        :html`<style>
+          :host{
+            --bg:#fff;
+            --bg2:#fafafa;
+            --fg:#333;
+            --fg2:#565656;
+            --light-fg:#999;
+            --very-light-fg:#bbb;
+            --pre-border-color:#000;
+            --pre-fg:#ccc;
+            --pre-bg:#263238;
+            --code-fg:#ccc;
+            --code-bg:transparent;
+            --border-color:#ccc;
+            --input-bg:#fff;
+            --input-border-color:#C5D9E8;
+            --placeholder-color:#dedede;
+            --light-border-color:#eee;
+            --light-get-color:#eff8fd;
+            --light-put-color:#fff5e6;
+            --light-post-color:#fbfff0;
+            --light-delete-color:#fff0f0;
+            --light-patch-color:#fff5cc;
+            --hover-color:#f7f7f7;
+          }
+          </style>`
+      }
       <style>
         :host{
           --error-color:#ff3333;
@@ -151,7 +153,6 @@ export default class RapiDoc extends LitElement {
           opacity:0.4;
         }
 
-
         @media only screen and (min-width: 768px){
           .only-large-screen{
             display:block;
@@ -166,34 +167,34 @@ export default class RapiDoc extends LitElement {
             padding: 24px 24px 8px 24px; 
           }
         }
-
       </style>
       ${this.showHeader==='false'?'':html`
-      <div class="row header regular-font" style="padding:8px 4px 8px 4px;min-height:48px;position:sticky;top:0;flex:1">
-        <div class="only-large-screen-flex" style="align-items: center;">
-          <slot name="logo" class="logo">
-            <m-logo style="height:36px;width:36px;margin-left:5px"></m-logo>
-          </slot>  
-          <div class="header-title">${this.headingText}</div>
-        </div>  
-        <div style="margin: 0px 8px;display:flex;flex:1">
+        <div class="row header regular-font" style="padding:8px 4px 8px 4px;min-height:48px;position:sticky;top:0;flex:1">
+          <div class="only-large-screen-flex" style="align-items: center;">
+            <slot name="logo" class="logo">
+              <m-logo style="height:36px;width:36px;margin-left:5px"></m-logo>
+            </slot>  
+            <div class="header-title">${this.headingText}</div>
+          </div>  
+          <div style="margin: 0px 8px;display:flex;flex:1">
 
-          ${ (this.allowSpecUrlLoad==='false') ?``:html`
-            <input id="spec-url" type="text" class="header-input" placeholder="Spec URL" value="${this.specUrl?this.specUrl:''}" @change="${this.onSepcUrlChange}" spellcheck="false" >
-            <div style="margin: 6px 5px 0 -24px; font-size:var(--title-font-size); cursor:pointer;">&#x23ce;</div> 
-          `} 
+            ${ (this.allowSpecUrlLoad==='false') ?``:html`
+              <input id="spec-url" type="text" class="header-input" placeholder="Spec URL" value="${this.specUrl?this.specUrl:''}" @change="${this.onSepcUrlChange}" spellcheck="false" >
+              <div style="margin: 6px 5px 0 -24px; font-size:var(--title-font-size); cursor:pointer;">&#x23ce;</div> 
+            `} 
           
-          ${ (this.allowSpecFileLoad==='false') ?``:html`
-            <input id="spec-file" type="file" style="display:none" value="${this.specFile?this.specFile:''}" @change="${this.onSepcFileChange}" spellcheck="false" >
-            <button class="m-btn only-large-screen" style="margin-left:10px;"  @click="${this.onFileLoadClick}"> LOCAL JSON FILE </button>
-          `}
-          <slot name="header"></slot>
-          ${ (this.allowSearch==='false') ?``:html`  
-            <input id="search" class="header-input" type="text"  placeholder="search" @change="${this.onSearchChange}" style="max-width:130px;margin-left:10px;" spellcheck="false" >
-            <div style="margin: 6px 5px 0 -24px; font-size:var(--title-font-size); cursor:pointer;">&#x23ce;</div>
-          `}
-        </div>
-      </div>`}
+            ${ (this.allowSpecFileLoad==='false') ?``:html`
+              <input id="spec-file" type="file" style="display:none" value="${this.specFile?this.specFile:''}" @change="${this.onSepcFileChange}" spellcheck="false" >
+              <button class="m-btn only-large-screen" style="margin-left:10px;"  @click="${this.onFileLoadClick}"> LOCAL JSON FILE </button>
+            `}
+            <slot name="header"></slot>
+            ${ (this.allowSearch==='false') ?``:html`  
+              <input id="search" class="header-input" type="text"  placeholder="search" @change="${this.onSearchChange}" style="max-width:130px;margin-left:10px;" spellcheck="false" >
+              <div style="margin: 6px 5px 0 -24px; font-size:var(--title-font-size); cursor:pointer;">&#x23ce;</div>
+            `}
+          </div>
+        </div>`
+      }
 
       <div class="body-container regular-font">
         <slot></slot>
@@ -214,37 +215,34 @@ export default class RapiDoc extends LitElement {
         </div>`
         }
 
-      ${(this.allowTry==='false' || !this.resolvedSpec)  ?``:html`
-        <div class="sub-title regular-font section-gap">
-          <a id="api_server_options"> API SERVER: </a>
-          <div class="mono-font" style="margin: 12px 0; font-size:calc(var(--small-font-size) + 1px);">
-          ${!this.resolvedSpec.servers || (this.resolvedSpec.servers.length===0)  ?``:html`
-            ${this.resolvedSpec.servers.map(server => html`
-                <input type='radio' name='api_server' value='${server.url}' @change="${this.onApiServerChange}" checked style='margin:2px 0 5px 8px'/>
-                ${server.url}<br/>
-              `
-            )}
-          `}
+        ${(this.allowTry==='false' || !this.resolvedSpec)  ?``:html`
+          <div class="sub-title regular-font section-gap">
+            <a id="api_server_options"> API SERVER: </a>
+            <div class="mono-font" style="margin: 12px 0; font-size:calc(var(--small-font-size) + 1px);">
+              ${!this.resolvedSpec.servers || (this.resolvedSpec.servers.length===0)  ?``:html`
+                ${this.resolvedSpec.servers.map(server => html`
+                  <input type='radio' name='api_server' value='${server.url}' @change="${this.onApiServerChange}" checked style='margin:2px 0 5px 8px'/>
+                  ${server.url}<br/>
+                `)}
+              `}
 
-          ${ (this.serverUrl) ?html`
-            <input type='radio' name='api_server' value='${this.serverUrl}' @change="${this.onApiServerChange}" checked style='margin:2px 0 5px 8px'/>
+              ${ (this.serverUrl) ?html`
+                <input type='radio' name='api_server' value='${this.serverUrl}' @change="${this.onApiServerChange}" checked style='margin:2px 0 5px 8px'/>
                 ${this.serverUrl}<br/>
-            `:''
-          }
-          </div>
-        </div>  
-      `} 
-
+              `:''}
+            </div>
+          </div>  
+        `} 
 
         ${(this.allowAuthentication==='false' || !this.resolvedSpec || !this.resolvedSpec.securitySchemes)?'':html`
-        <div class="sub-title regular-font section-gap">
-          <security-schemes 
-            .schemes="${this.resolvedSpec.securitySchemes}"
-            selected-api-key-name  = "${this.apiKeyName?this.apiKeyName:''}"
-            selected-api-key-value = "${this.apiKeyValue?this.apiKeyValue:''}"
-            @change="${this.onSecurityChange}"
-          ></security-schemes>
-        </div>
+          <div class="sub-title regular-font section-gap">
+            <security-schemes 
+              .schemes="${this.resolvedSpec.securitySchemes}"
+              selected-api-key-name  = "${this.apiKeyName?this.apiKeyName:''}"
+              selected-api-key-value = "${this.apiKeyValue?this.apiKeyValue:''}"
+              @change="${this.onSecurityChange}"
+            ></security-schemes>
+          </div>
         `}
 
         ${this.resolvedSpec && this.resolvedSpec.tags ?html`
@@ -267,123 +265,162 @@ export default class RapiDoc extends LitElement {
         :''}
         <slot name="footer"></slot>
       </div>  
-    `}
-    static get properties() {
-      return {
-        specUrl : { type: String, attribute: 'spec-url' },
-        specFile: { type: String, attribute: false },
-        serverUrl  : { type: String, attribute: 'server-url'  },
-        matchPaths  : { type: String, attribute: 'match-paths' },        
-        headingText : { type: String, attribute: 'heading-text'  },
-        headerColor : { type: String, attribute: 'header-color'  },
-        primaryColor: { type: String, attribute: 'primary-color' },
-        regularFont : { type: String, attribute: 'regular-font'  },
-        monoFont    : { type: String, attribute: 'mono-font'   },
-        showHeader  : { type: String, attribute: 'show-header' },
-        showInfo    : { type: String, attribute: 'show-info'   },
-        allowAuthentication: { type: String, attribute: 'allow-authentication' },
-        allowTry    : { type: String, attribute: 'allow-try'    },
-        allowSpecUrlLoad: { type: String, attribute: 'allow-spec-url-load' },
-        allowSpecFileLoad: { type: String, attribute: 'allow-spec-file-load' },
-        allowSearch : { type: String, attribute: 'allow-search' },
-        layout  : { type: String },
-        theme   : { type: String },
-        logoUrl : { type: String , attribute: 'logo-url' },
-        apiKeyName    : { type: String, attribute: 'api-key-name' },
-        apiKeyValue   : { type: String, attribute: 'api-key-value' },
-        apiKeyLocation: { type: String, attribute: 'api-key-location'},
-      };
-    }
-    attributeChangedCallback(name, oldVal, newVal) {
-      if (name=='spec-url'){
-        if (oldVal !== newVal){
-          this.loadSpec(newVal);
-        }
-      }
-      super.attributeChangedCallback(name, oldVal, newVal);
-    }
+    `
+  }
 
-    onSepcUrlChange(e){
-      this.setAttribute('spec-url', this.shadowRoot.getElementById('spec-url').value);
+  static get properties()
+  {
+    return {
+      specUrl : {
+        type: String,
+        attribute: 'spec-url',
+        // hasChanged(newVal, oldVal) {
+        //  return newVal != oldVal
+        //}
+      },
+      specFile: { type: String, attribute: false },
+      serverUrl  : { type: String, attribute: 'server-url'  },
+      matchPaths  : { type: String, attribute: 'match-paths' },        
+      headingText : { type: String, attribute: 'heading-text'  },
+      headerColor : { type: String, attribute: 'header-color'  },
+      primaryColor: { type: String, attribute: 'primary-color' },
+      regularFont : { type: String, attribute: 'regular-font'  },
+      monoFont    : { type: String, attribute: 'mono-font'   },
+      showHeader  : { type: String, attribute: 'show-header' },
+      showInfo    : { type: String, attribute: 'show-info'   },
+      allowAuthentication: { type: String, attribute: 'allow-authentication' },
+      allowTry    : { type: String, attribute: 'allow-try'    },
+      allowSpecUrlLoad: { type: String, attribute: 'allow-spec-url-load' },
+      allowSpecFileLoad: { type: String, attribute: 'allow-spec-file-load' },
+      allowSearch : { type: String, attribute: 'allow-search' },
+      layout  : { type: String },
+      theme   : { type: String },
+      logoUrl : { type: String , attribute: 'logo-url' },
+      apiKeyName    : { type: String, attribute: 'api-key-name' },
+      apiKeyValue   : { type: String, attribute: 'api-key-value' },
+      apiKeyLocation: { type: String, attribute: 'api-key-location'},
     }
+  }
 
-    onSepcFileChange(e){
-      let me = this;
-      this.setAttribute('spec-file', this.shadowRoot.getElementById('spec-file').value);
-      let specFile = e.target.files[0];
-      let reader = new FileReader();
-      reader.onload = function(e) {
-        try{
-          let specObj = JSON.parse(reader.result);
-          me.loadSpec(specObj);
-          me.shadowRoot.getElementById('spec-url').value="";
-        }
-        catch{
-          alert("Unable to read or parse json");
-          console.log("Unable to read or parse json")
-        }
-        
-      }
-      // Read the Text file
-      reader.readAsText(specFile);	
-
-    }
-
-    onFileLoadClick(){
-      this.shadowRoot.getElementById('spec-file').click();
-    }
-
-    onApiServerChange(){
-      let apiServerRadioEl = this.shadowRoot.querySelector("input[name='api_server']:checked");
-      if (apiServerRadioEl !== null){
-        this.selectedServer = apiServerRadioEl.value;
-        this.requestUpdate();
+  attributeChangedCallback(name, oldVal, newVal)
+  {
+    if (name=='spec-url')
+    {
+      if (oldVal !== newVal)
+      {
+        this.loadSpec(newVal)
       }
     }
+    super.attributeChangedCallback(name, oldVal, newVal)
+  }
 
-    onSecurityChange(e){
-      this.apiKeyName = e.detail.keyName
-      this.apiKeyValue = e.detail.keyValue
-      this.apiKeyLocation= e.detail.keyLocation;
-    }
+  onSepcUrlChange(e)
+  {
+    this.setAttribute('spec-url', this.shadowRoot.getElementById('spec-url').value)
+  }
 
-    onSearchChange(e){
-      this.matchPaths = e.target.value;
-    }
-
-    loadSpec(specUrl) {
-      let me = this;
-      if (!specUrl){
-        return;
+  onSepcFileChange(e)
+  {
+    let me = this
+    this.setAttribute('spec-file', this.shadowRoot.getElementById('spec-file').value)
+    let specFile = e.target.files[0]
+    let reader = new FileReader()
+    reader.onload = function(e) {
+      try{
+        let specObj = JSON.parse(reader.result)
+        me.loadSpec(specObj)
+        me.shadowRoot.getElementById('spec-url').value=""
       }
-      this.loading        = true;
-      this.apiKeyName     = "";
-      this.apiKeyValue    = "";
-      this.apiKeyLocation = "";
-      this.selectedServer = "";
-      this.matchPaths     = "";
-
-      ProcessSpec(specUrl).then(function(spec){
-        me.loading = false;
-        if (spec===undefined || spec === null){
-          console.error('Unable to resolve the API spec. ');
-        }
-        console.log(spec);
-        me.afterSpecParsedAndValidated(spec);
-      })
-      .catch(function(err) {
-        me.loading=false;
-        console.error('Unable to resolve the API spec.. ' + err.message);
-      });
+      catch{
+        alert("Unable to read or parse json")
+        console.log("Unable to read or parse json")
+      }    
     }
+    // Read the Text file
+    reader.readAsText(specFile)
+  }
 
-    afterSpecParsedAndValidated(spec, isReloadingSpec=false){
-      this.resolvedSpec = spec;
-      this.requestUpdate();
-      window.setTimeout(()=>{
+  onFileLoadClick()
+  {
+    this.shadowRoot.getElementById('spec-file').click()
+  }
+
+  onApiServerChange()
+  {
+    let apiServerRadioEl = this.shadowRoot.querySelector("input[name='api_server']:checked")
+    if (apiServerRadioEl !== null)
+    {
+      this.selectedServer = apiServerRadioEl.value
+      this.requestUpdate()
+    }
+  }
+
+  onSecurityChange(e){
+    this.apiKeyName = e.detail.keyName
+    this.apiKeyValue = e.detail.keyValue
+    this.apiKeyLocation= e.detail.keyLocation
+  }
+
+  onSearchChange(e)
+  {
+    this.matchPaths = e.target.value
+  }
+
+  loadSpec(specUrl)
+  {
+    let me = this
+    if(!specUrl) return
+    this.loading        = true
+    this.apiKeyName     = ""
+    this.apiKeyValue    = ""
+    this.apiKeyLocation = ""
+    this.selectedServer = ""
+    this.matchPaths     = ""
+
+    ProcessSpec(specUrl).then(function(spec)
+    {
+      me.loading = false
+      if (spec===undefined || spec === null)
+      {
+        console.error('Unable to resolve the API spec. ')
+      }
+      console.log(spec)
+      me.afterSpecParsedAndValidated(spec)
+    })
+    .catch(function(err)
+    {
+      me.loading=false
+      console.error('Unable to resolve the API spec.. ' + err.message)
+    })
+  }
+
+  afterSpecParsedAndValidated(spec, isReloadingSpec=false)
+  {
+    this.resolvedSpec = spec
+    this.requestUpdate()
+    window.setTimeout(
+      ()=>{
         this.onApiServerChange()
-      },0);
+      },
+      0
+    )
+  }
 
+  getSpecUrlByParam()
+  {
+    let arr = location.href.split(/\?/, 2)
+    return arr.length <= 1 ? "" :  arr[1]
+  }
+
+  firstUpdated()
+  {
+    let uriSpec = this.getSpecUrlByParam()
+    if(uriSpec && this.specUrl != uriSpec)
+    {
+      this.specUrl = uriSpec
+      this.loadSpec(this.specUrl)
     }
+  }
 }
-customElements.define('rapi-doc', RapiDoc);
+customElements.define('rapi-doc', RapiDoc)
+

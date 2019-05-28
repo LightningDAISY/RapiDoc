@@ -53,8 +53,10 @@ module.exports = {
     },
     devServer: {
         contentBase: path.join(__dirname, 'docs'),
+        host: '0.0.0.0',
         port: 8080,
-        hot: true
+        hot: true,
+        disableHostCheck: true
     },
     module: {
         rules: [
