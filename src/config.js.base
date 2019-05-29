@@ -1,0 +1,9 @@
+// MOVE ME!!
+export default
+{
+  // set your development URLs
+  devServers: [
+    "http://localhost/f/v1",
+    "http://localhost/f/v2"
+  ]
+}
