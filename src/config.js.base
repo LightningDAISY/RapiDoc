@@ -5,5 +5,8 @@ export default
   devServers: [
     "http://localhost/f/v1",
     "http://localhost/f/v2"
-  ]
+  ],
+
+  // set your fileserver's URL
+  fileServer: ''
 }

@@ -186,8 +186,11 @@ export default class RapiDoc extends LitElement
           
             ${ (this.allowSpecFileLoad==='false') ?``:html`
               <input id="spec-file" type="file" style="display:none" value="${this.specFile?this.specFile:''}" @change="${this.onSepcFileChange}" spellcheck="false" >
-              <button class="m-btn only-large-screen" style="margin-left:10px;"  @click="${this.onFileLoadClick}"> LOCAL JSON FILE </button>
+              <button class="m-btn only-large-screen" style="margin-left:10px;" @click="${this.onFileLoadClick}"> LOCAL JSON FILE </button>
             `}
+            ${ Config.fileServer ? html`
+              <a href="${Config.fileServer}" style="text-decoration: none"><button class="m-btn only-large-screen" style="margin-left:2px;"> FILE SERVER </button></a>
+            `:``}
             <slot name="header"></slot>
             ${ (this.allowSearch==='false') ?``:html`  
               <input id="search" class="header-input" type="text"  placeholder="search" @change="${this.onSearchChange}" style="max-width:130px;margin-left:10px;" spellcheck="false" >
