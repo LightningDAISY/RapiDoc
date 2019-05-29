@@ -1,5 +1,6 @@
 import { LitElement, html, css} from 'lit-element'
 import {unsafeHTML} from 'lit-html/directives/unsafe-html.js'
+import Config from '@/config'
 import MLogo from '@/components/m-logo' 
 import EndPoints from '@/components/end-points'
 import SecuritySchemes from '@/components/security-schemes'
@@ -219,10 +220,10 @@ export default class RapiDoc extends LitElement
           <div class="sub-title regular-font section-gap">
             <a id="api_server_options"> API SERVER: </a>
             <div class="mono-font" style="margin: 12px 0; font-size:calc(var(--small-font-size) + 1px);">
-              ${!this.resolvedSpec.servers || (this.resolvedSpec.servers.length===0)  ?``:html`
+              ${!this.resolvedSpec.servers || (this.resolvedSpec.servers.length===0)  ?``: html`
                 ${this.resolvedSpec.servers.map(server => html`
-                  <input type='radio' name='api_server' value='${server.url}' @change="${this.onApiServerChange}" checked style='margin:2px 0 5px 8px'/>
-                  ${server.url}<br/>
+                  <label><input type='radio' name='api_server' value='${server.url}' @change="${this.onApiServerChange}" checked style='margin:2px 0 5px 8px'/>
+                  ${server.url}</label><br/>
                 `)}
               `}
 
@@ -394,8 +395,23 @@ export default class RapiDoc extends LitElement
     })
   }
 
+  getCurrentPath()
+  {
+    let paths = this.specUrl.match("^https?://.+?(/.+)")
+    return paths ? paths[1] : ""
+  }
+
   afterSpecParsedAndValidated(spec, isReloadingSpec=false)
   {
+    if(spec.servers && Config.devServers)
+    {
+      let currentPath = this.getCurrentPath()
+      for(let server of Config.devServers)
+      {
+        let resolvedUri = server.replace("{currentPath}", currentPath)
+        spec.servers.push({ "url" : resolvedUri })
+      }
+    }
     this.resolvedSpec = spec
     this.requestUpdate()
     window.setTimeout(

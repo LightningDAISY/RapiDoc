@@ -5,12 +5,17 @@ node_modules
 .env.local
 .env.*.local
 
+/src/config.js
+
 # Log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # Editor directories and files
+/dist/*.js
+/dist/*.html
+/dist/*.gz
 .idea
 .vscode
 *.suo
